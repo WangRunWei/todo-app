@@ -54,7 +54,10 @@ class TodoApp {
 
     addTodo() {
         const text = this.todoInput.value.trim();
-        if (!text) return;
+        if (!text) {
+            this.shakeInput();
+            return;
+        }
 
         const todo = {
             id: Date.now(),
@@ -63,10 +66,34 @@ class TodoApp {
             createdAt: new Date().toISOString()
         };
 
-        this.todos.push(todo);
+        this.todos.unshift(todo);
         this.todoInput.value = '';
         this.save();
         this.render();
+        this.showNotification('待办事项已添加');
+    }
+
+    shakeInput() {
+        this.todoInput.style.animation = 'shake 0.5s';
+        setTimeout(() => {
+            this.todoInput.style.animation = '';
+        }, 500);
+    }
+
+    showNotification(message) {
+        const notification = document.createElement('div');
+        notification.className = 'notification';
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.classList.add('show');
+        }, 10);
+
+        setTimeout(() => {
+            notification.classList.remove('show');
+            setTimeout(() => notification.remove(), 300);
+        }, 2000);
     }
 
     toggleTodo(id) {
