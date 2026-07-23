@@ -53,6 +53,12 @@ class TodoApp {
                 this.toggleTodo(id);
             } else if (e.target.classList.contains('delete-btn')) {
                 this.deleteTodo(id);
+            } else if (e.target.classList.contains('edit-btn')) {
+                this.startEdit(id);
+            } else if (e.target.classList.contains('save-btn')) {
+                this.saveEdit(id);
+            } else if (e.target.classList.contains('cancel-btn')) {
+                this.cancelEdit(id);
             }
         });
     }
@@ -122,6 +128,55 @@ class TodoApp {
         this.render();
     }
 
+    startEdit(id) {
+        const todoItem = document.querySelector(`[data-id="${id}"]`);
+        const todo = this.todos.find(t => t.id === id);
+        if (!todoItem || !todo) return;
+
+        todoItem.classList.add('editing');
+        const textSpan = todoItem.querySelector('.todo-text');
+        const editInput = document.createElement('input');
+        editInput.type = 'text';
+        editInput.className = 'edit-input';
+        editInput.value = todo.text;
+
+        const actionsDiv = todoItem.querySelector('.todo-actions');
+        actionsDiv.innerHTML = `
+            <button class="save-btn">保存</button>
+            <button class="cancel-btn">取消</button>
+        `;
+
+        textSpan.style.display = 'none';
+        todoItem.insertBefore(editInput, textSpan);
+        editInput.focus();
+
+        editInput.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') this.saveEdit(id);
+            if (e.key === 'Escape') this.cancelEdit(id);
+        });
+    }
+
+    saveEdit(id) {
+        const todoItem = document.querySelector(`[data-id="${id}"]`);
+        const editInput = todoItem.querySelector('.edit-input');
+        const todo = this.todos.find(t => t.id === id);
+
+        if (!editInput || !todo) return;
+
+        const newText = editInput.value.trim();
+        if (newText) {
+            todo.text = newText;
+            this.save();
+            this.showNotification('待办事项已更新');
+        }
+
+        this.render();
+    }
+
+    cancelEdit(id) {
+        this.render();
+    }
+
     updateFilterButtons() {
         this.filterBtns.forEach(btn => {
             btn.classList.remove('active');
@@ -164,7 +219,10 @@ class TodoApp {
                         ${todo.completed ? 'checked' : ''}
                     >
                     <span class="todo-text">${this.escapeHtml(todo.text)}</span>
-                    <button class="delete-btn">删除</button>
+                    <div class="todo-actions">
+                        <button class="edit-btn">编辑</button>
+                        <button class="delete-btn">删除</button>
+                    </div>
                 `;
                 this.todoList.appendChild(li);
             });

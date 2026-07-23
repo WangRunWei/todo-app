@@ -186,6 +186,26 @@ body.dark-mode h1 {
     color: #333;
 }
 
+.todo-actions {
+    display: flex;
+    gap: 5px;
+}
+
+.edit-btn {
+    padding: 6px 12px;
+    background: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.edit-btn:hover {
+    background: #2980b9;
+}
+
 .delete-btn {
     padding: 6px 12px;
     background: #ff4757;
@@ -259,4 +279,51 @@ body.dark-mode h1 {
     0%, 100% { transform: translateX(0); }
     10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
     20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.edit-input {
+    flex: 1;
+    padding: 8px 12px;
+    border: 2px solid #667eea;
+    border-radius: 5px;
+    font-size: 16px;
+    font-family: inherit;
+}
+
+.save-btn {
+    padding: 6px 12px;
+    background: #27ae60;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.save-btn:hover {
+    background: #229954;
+}
+
+.cancel-btn {
+    padding: 6px 12px;
+    background: #95a5a6;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.cancel-btn:hover {
+    background: #7f8c8d;
+}
+
+.todo-item.editing {
+    background: #f0f7ff;
+}
+
+body.dark-mode .todo-item.editing {
+    background: #1e2d3d;
 }
