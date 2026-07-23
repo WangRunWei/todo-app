@@ -12,6 +12,11 @@ body {
     justify-content: center;
     align-items: center;
     padding: 20px;
+    transition: background 0.3s;
+}
+
+body.dark-mode {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
 }
 
 .container {
@@ -21,13 +26,42 @@ body {
     width: 100%;
     max-width: 500px;
     box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s;
+}
+
+body.dark-mode .container {
+    background: #2a2a3e;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
 }
 
 h1 {
     color: #333;
-    text-align: center;
-    margin-bottom: 25px;
     font-size: 28px;
+    margin: 0;
+}
+
+body.dark-mode h1 {
+    color: #e0e0e0;
+}
+
+.theme-toggle {
+    background: none;
+    border: none;
+    font-size: 28px;
+    cursor: pointer;
+    padding: 5px;
+    transition: transform 0.3s;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.2);
 }
 
 .input-section {

@@ -2,12 +2,14 @@ class TodoApp {
     constructor() {
         this.todos = JSON.parse(localStorage.getItem('todos')) || [];
         this.filter = 'all';
+        this.darkMode = localStorage.getItem('darkMode') === 'true';
         this.init();
     }
 
     init() {
         this.cacheDOM();
         this.bindEvents();
+        this.applyTheme();
         this.render();
     }
 
@@ -18,6 +20,7 @@ class TodoApp {
         this.filterBtns = document.querySelectorAll('.filter-btn');
         this.itemCount = document.getElementById('itemCount');
         this.clearCompletedBtn = document.getElementById('clearCompleted');
+        this.themeToggle = document.getElementById('themeToggle');
     }
 
     bindEvents() {
@@ -25,6 +28,8 @@ class TodoApp {
         this.todoInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') this.addTodo();
         });
+
+        this.themeToggle.addEventListener('click', () => this.toggleTheme());
 
         this.filterBtns.forEach(btn => {
             btn.addEventListener('click', (e) => {
@@ -181,6 +186,17 @@ class TodoApp {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
+    }
+
+    toggleTheme() {
+        this.darkMode = !this.darkMode;
+        this.applyTheme();
+        localStorage.setItem('darkMode', this.darkMode);
+    }
+
+    applyTheme() {
+        document.body.classList.toggle('dark-mode', this.darkMode);
+        this.themeToggle.textContent = this.darkMode ? '☀️' : '🌙';
     }
 }
 
